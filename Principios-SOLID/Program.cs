@@ -1,11 +1,11 @@
-﻿using System;
-using Principios_SOLID.Enum;
+﻿using Principios_SOLID.Enum;
+using System;
 
 namespace Principios_SOLID
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             GerenciadorDeDescontos gerenciadorDeDescontos = new GerenciadorDeDescontos();
             Console.WriteLine("Valor da compra 1000 e fidelidade 10 anos (5%)\n");

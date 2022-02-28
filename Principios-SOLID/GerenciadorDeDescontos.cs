@@ -7,7 +7,9 @@ namespace Principios_SOLID
     {
         private readonly ICalculaDescontoFidelidade _calculaDescontoFidelidade;
 
-        public GerenciadorDeDescontos(ICalculaDescontoFidelidade calculaDescontoFidelidade)
+        public GerenciadorDeDescontos(
+            ICalculaDescontoFidelidade calculaDescontoFidelidade
+            )
         {
             _calculaDescontoFidelidade = calculaDescontoFidelidade;
         }
@@ -19,21 +21,21 @@ namespace Principios_SOLID
             switch (statusContaCiente)
             {
                 case StatusContaClienteEnum.NaoResgistrado:
-                    precoAposDesconto = precoProduto;
+                    precoAposDesconto = new ClienteNaoRegistrado().AplicarDescontoStatusConta(precoProduto);
                     break;
 
                 case StatusContaClienteEnum.ClienteComum:
-                    precoAposDesconto = (precoProduto - (Constantes.DESCONTO_CLIENTE_COMUM * precoProduto));
+                    precoAposDesconto = new ClienteComum().AplicarDescontoStatusConta(precoProduto);
                     precoAposDesconto -= _calculaDescontoFidelidade.AplicarDescontoFidelidade(precoAposDesconto, tempoDeContaEmAnos);
                     break;
 
                 case StatusContaClienteEnum.CienteEspecial:
-                    precoAposDesconto = (precoProduto - (Constantes.DESCONTO_CLIENTE_ESPECIAL * precoProduto));
+                    precoAposDesconto = new ClienteEspecial().AplicarDescontoStatusConta(precoProduto);
                     precoAposDesconto -= _calculaDescontoFidelidade.AplicarDescontoFidelidade(precoAposDesconto, tempoDeContaEmAnos);
                     break;
 
                 case StatusContaClienteEnum.ClienteVip:
-                    precoAposDesconto = (precoProduto - (Constantes.DESCONTO_CLIENTE_VIP * precoProduto));
+                    precoAposDesconto = new ClienteVip().AplicarDescontoStatusConta(precoProduto);
                     precoAposDesconto -= _calculaDescontoFidelidade.AplicarDescontoFidelidade(precoAposDesconto, tempoDeContaEmAnos);
                     break;
 
