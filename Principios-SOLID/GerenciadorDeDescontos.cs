@@ -22,6 +22,7 @@ namespace Principios_SOLID
             {
                 case StatusContaClienteEnum.NaoResgistrado:
                     precoAposDesconto = new ClienteNaoRegistrado().AplicarDescontoStatusConta(precoProduto);
+                    precoAposDesconto -= _calculaDescontoFidelidade.AplicarDescontoFidelidade(precoAposDesconto, tempoDeContaEmAnos);
                     break;
 
                 case StatusContaClienteEnum.ClienteComum:
