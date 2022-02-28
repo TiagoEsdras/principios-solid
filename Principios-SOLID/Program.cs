@@ -1,4 +1,5 @@
 ﻿using Principios_SOLID.Enum;
+using Principios_SOLID.Factory;
 using System;
 
 namespace Principios_SOLID
@@ -7,7 +8,12 @@ namespace Principios_SOLID
     {
         private static void Main(string[] args)
         {
-            GerenciadorDeDescontos gerenciadorDeDescontos = new GerenciadorDeDescontos();
+            ICalculaDescontoFidelidade calculaDescontoFidelidade = new CalculaDescontoFidelidade();
+
+            ICalculaDescontoStatusClienteFactory calculaDescontoStatusClienteFactory = new CalculaDescontoStatusClienteFactory();
+
+            GerenciadorDeDescontos gerenciadorDeDescontos = new GerenciadorDeDescontos(calculaDescontoFidelidade, calculaDescontoStatusClienteFactory);
+
             Console.WriteLine("Valor da compra 1000 e fidelidade 10 anos (5%)\n");
 
             var resultado = gerenciadorDeDescontos.AplicarDesconto(1000, StatusContaClienteEnum.ClienteComum, 10);
