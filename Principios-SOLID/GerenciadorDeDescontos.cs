@@ -1,5 +1,5 @@
-﻿using Principios_SOLID.Enum;
-using System;
+﻿using System;
+using Principios_SOLID.Enum;
 
 namespace Principios_SOLID
 {
@@ -8,8 +8,10 @@ namespace Principios_SOLID
         public decimal AplicarDesconto(decimal precoProduto, StatusContaClienteEnum statusContaCiente, int tempoDeContaEmAnos)
         {
             decimal precoAposDesconto = 0;
-
-            decimal descontoPorFidelidade = (tempoDeContaEmAnos > 5) ? (decimal)5 / 100 : (decimal)tempoDeContaEmAnos / 100;
+            
+            decimal descontoPorFidelidade = (tempoDeContaEmAnos > Constantes.DESCONTO_MAXIMO_POR_FIDELIDADE) ?
+                (decimal)Constantes.DESCONTO_MAXIMO_POR_FIDELIDADE / 100 :
+                (decimal)tempoDeContaEmAnos / 100;
 
             switch (statusContaCiente)
             {
@@ -17,13 +19,16 @@ namespace Principios_SOLID
                     precoAposDesconto = precoProduto;
                     break;
                 case StatusContaClienteEnum.ClienteComum:
-                    precoAposDesconto = (precoProduto - (0.1m * precoProduto)) - descontoPorFidelidade * (precoProduto - (0.1m * precoProduto));
+                    precoAposDesconto = (precoProduto - (Constantes.DESCONTO_CLIENTE_COMUM * precoProduto));
+                    precoAposDesconto -= descontoPorFidelidade * (precoProduto - (0.1m * precoProduto));
                     break;
                 case StatusContaClienteEnum.CienteEspecial:
-                        precoAposDesconto = (0.7m * precoProduto) - descontoPorFidelidade * (0.7m * precoProduto);
+                    precoAposDesconto = (precoProduto - (Constantes.DESCONTO_CLIENTE_ESPECIAL * precoProduto));
+                    precoAposDesconto -= descontoPorFidelidade * (precoProduto - (0.3m * precoProduto));
                     break;
                 case StatusContaClienteEnum.ClienteVip:
-                    precoAposDesconto = (precoProduto - (0.5m * precoProduto)) - descontoPorFidelidade * (precoProduto - (0.5m * precoProduto));
+                    precoAposDesconto = (precoProduto - (Constantes.DESCONTO_CLIENTE_VIP * precoProduto));
+                    precoAposDesconto -= descontoPorFidelidade * (precoProduto - (0.5m * precoProduto));
                     break;
 
                 default:
